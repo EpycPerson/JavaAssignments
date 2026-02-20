@@ -1,0 +1,132 @@
+// file name REALJAVA
+import java.util.Scanner;
+// import java.util.ArrayList;
+
+
+public class REALJAVA {
+    public static void main(String[] args) {
+        Library library = new Library();
+        Scanner sc = new Scanner(System.in);
+        int choice;
+
+        do {
+            System.out.println("\nLibrary Management System");
+            System.out.println("1. Add Book");
+            System.out.println("2. Search Book by Title");
+            System.out.println("3. Display All Books");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+            sc.nextLine(); // consume newline
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter Book Title: ");
+                    String title = sc.nextLine();
+                    System.out.print("Enter Author Name: ");
+                    String author = sc.nextLine();
+                    System.out.print("Enter ISBN: ");
+                    String isbn = sc.nextLine();
+                    Book book = new Book(title, author, isbn);
+                    library.addBook(book);
+                    break;
+
+                case 2:
+                    System.out.print("Enter Book Title to search: ");
+                    String searchTitle = sc.nextLine();
+                    library.searchByTitle(searchTitle);
+                    break;
+
+                case 3:
+                    library.displayAllBooks();
+                    break;
+
+                case 4:
+                    System.out.println("Exiting Library System. Goodbye!");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice! Try again.");
+            }
+        } while (choice != 4);
+
+        sc.close();
+    }
+}
+
+
+
+// file name Library.java
+
+import java.util.ArrayList;
+
+public class Library {
+    private ArrayList<Book> books;
+
+    public Library() {
+        books = new ArrayList<>();
+    }
+
+    public void addBook(Book book) {
+        books.add(book);
+        System.out.println("Book added successfully!");
+    }
+
+    public void searchByTitle(String title) {
+        boolean found = false;
+        for (Book book : books) {
+            if (book.getTitle().equalsIgnoreCase(title)) {
+                book.displayBook();
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No book found with the title: " + title);
+        }
+    }
+
+    public void displayAllBooks() {
+        if (books.isEmpty()) {
+            System.out.println("Library is empty.");
+        } else {
+            System.out.println("All Books in Library:");
+            for (Book book : books) {
+                book.displayBook();
+            }
+        }
+    }
+}
+
+// file name Book.java
+
+public class Book {
+    private String title;
+    private String author;
+    private String isbn;
+
+    // Constructor
+    public Book(String title, String author, String isbn) {
+        this.title = title;
+        this.author = author;
+        this.isbn = isbn;
+    }
+
+    // Getters
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    // Display book details
+    public void displayBook() {
+        System.out.println("Title: " + title + ", Author: " + author + ", ISBN: " + isbn);
+    }
+}
+
